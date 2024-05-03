@@ -3,6 +3,8 @@ package ru.hogwarts.school.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -21,6 +23,9 @@ public class Faculty {
 
     @Column(name = "color")
     private String color;
+
+    @OneToMany(mappedBy = "faculty")
+    private List<Student> studentList;
 
     public Faculty(String name, String color) {
         this.name = name;

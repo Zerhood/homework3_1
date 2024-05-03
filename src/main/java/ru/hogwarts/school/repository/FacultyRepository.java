@@ -4,11 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
 
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
-    @Query("SELECT f FROM Faculty AS f WHERE f.color = ?1")
-    Collection<Faculty> findByColor(String color);
+    Collection<Faculty> findByColorIgnoreCase(String color);
+    Collection<Faculty> findByNameIgnoreCase(String name);
+    @Query("SELECT s FROM Faculty AS f JOIN Student AS s ON f.id = s.faculty.id WHERE f.name = ?1")
+    Collection<Student> findByStudents(String name);
 }
