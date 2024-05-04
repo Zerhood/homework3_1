@@ -46,6 +46,7 @@ public class StudentService {
     }
 
     public Faculty findByFaculty(String student) {
-        return repository.findByFaculty(student);
+        Student student1 = repository.findByStudentIgnoreCase(student);
+        return student1.getFaculty();
     }
 }

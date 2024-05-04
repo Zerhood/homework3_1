@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class FacultyService {
@@ -36,15 +37,12 @@ public class FacultyService {
         return result;
     }
 
-    public Collection<Faculty> findByColor(String color) {
-        return facultyRepository.findByColorIgnoreCase(color);
+    public Collection<Faculty> findByColorOrName(String color) {
+        return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color);
     }
 
-    public Collection<Faculty> findByNAme(String name) {
-        return facultyRepository.findByNameIgnoreCase(name);
-    }
-
-    public Student findByStudents(String name) {
-        return facultyRepository.findByStudents(name);
+    public Collection<Student> findByStudents(String name) {
+        Faculty faculty = facultyRepository.findByFacultyIgnoreCase(name);
+        return faculty.getStudentList();
     }
 }
