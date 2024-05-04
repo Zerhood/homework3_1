@@ -62,10 +62,10 @@ public class FacultyController {
     }
 
     @GetMapping("{faculty}")
-    public ResponseEntity<Collection<Student>> findByStudent(@PathVariable String faculty) {
+    public ResponseEntity<Student> findByStudent(@PathVariable String faculty) {
         if (faculty != null && !faculty.isBlank()) {
             return ResponseEntity.ok(facultyService.findByStudents(faculty));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(null);
     }
 }
