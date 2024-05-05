@@ -22,6 +22,10 @@ public class Student {
     @Column(name = "age")
     private int age;
 
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
     public Student(String name, int age) {
         this.name = name;
         this.age = age;
