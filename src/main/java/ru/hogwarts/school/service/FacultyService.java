@@ -37,12 +37,12 @@ public class FacultyService {
         return result;
     }
 
-    public Collection<Faculty> findByColorOrName(String color) {
-        return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color);
+    public Collection<Faculty> findByColorOrName(String color, String name) {
+        return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color, name);
     }
 
     public Collection<Student> findByStudents(String name) {
-        Faculty faculty = facultyRepository.findByFacultyIgnoreCase(name);
+        Faculty faculty = facultyRepository.findFacultyByNameIgnoreCase(name);
         return faculty.getStudentList();
     }
 }
