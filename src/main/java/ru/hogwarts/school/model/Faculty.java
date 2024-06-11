@@ -24,7 +24,7 @@ public class Faculty {
     @Column(name = "color")
     private String color;
 
-    @OneToMany(mappedBy = "faculty")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "faculty")
     private List<Student> studentList;
 
     public Faculty(String name, String color) {
