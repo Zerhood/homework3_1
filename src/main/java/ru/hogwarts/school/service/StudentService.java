@@ -36,7 +36,7 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.getReferenceById(id);
     }
 
     public Student editStudent(Student student) {
@@ -52,7 +52,7 @@ public class StudentService {
     }
 
     public Collection<Student> findByAge(int age) {
-        return repository.findByAge(age);
+        return repository.findStudentsByAge(age);
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
