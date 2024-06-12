@@ -142,7 +142,7 @@ public class WMT_FacultyControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty")
-                        .param("colorOrName", faculty.getColor())
+                        .param("colorOrName", faculty.getName())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(actual)));

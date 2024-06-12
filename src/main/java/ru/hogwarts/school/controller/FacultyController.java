@@ -19,7 +19,7 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    @GetMapping("/{id:\\d+}")
+    @GetMapping("/{id}")
     public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id) {
         Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
@@ -53,7 +53,6 @@ public class FacultyController {
         if (colorOrName != null && !colorOrName.isBlank()) {
             return ResponseEntity.ok(facultyService.findByColorOrName(colorOrName));
         }
-
         return ResponseEntity.ok(Collections.emptyList());
     }
 
