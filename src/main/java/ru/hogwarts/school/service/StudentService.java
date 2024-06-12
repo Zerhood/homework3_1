@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -90,6 +92,23 @@ public class StudentService {
         avatar.setData(file.getBytes());
 
         avatarRepository.save(avatar);
+    }
+
+    public int getCountAllByStudents() {
+        return repository.getCountAllByStudents();
+    }
+
+    public double getAvgAgeByAllStudents() {
+        return repository.getAvgAgeByAllStudents();
+    }
+
+    public List<Student> get5StudentsAscId() {
+        return repository.get5StudentsAscId();
+    }
+
+    public List<Avatar> getAllAvatar(Integer pageNumber, Integer pageSize) {
+        PageRequest request = PageRequest.of(pageNumber - 1, pageSize);
+        return avatarRepository.findAll(request).getContent();
     }
 
     private String getExtension(String fileName) {
