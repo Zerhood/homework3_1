@@ -151,4 +151,46 @@ public class StudentService {
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+
+    public void printParallelStudentsName() {
+        List<String> nameStudents = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+        for (int i = 0; i < nameStudents.size(); i++) {
+            if (i < 2 || i > 5) {
+                print(nameStudents.get(i));
+            } else if (i < 4) {
+                int indexName = i;
+                new Thread(() -> print(nameStudents.get(indexName)));
+            } else if (i < 5) {
+                int indexName = i;
+                new Thread(() -> print(nameStudents.get(indexName)));
+            }
+        }
+    }
+
+    private void print(String name) {
+        System.out.println("name = " + name);
+    }
+
+    public void printSynchronizedStudentName() {
+        List<String> nameStudents = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+        for (int i = 0; i < nameStudents.size(); i++) {
+            if (i < 2 || i > 5) {
+                printSynchronized(nameStudents.get(i));
+            } else if (i < 4) {
+                int indexName = i;
+                new Thread(() -> printSynchronized(nameStudents.get(indexName)));
+            } else if (i < 5) {
+                int indexName = i;
+                new Thread(() -> printSynchronized(nameStudents.get(indexName)));
+            }
+        }
+    }
+
+    private synchronized void printSynchronized(String name) {
+        System.out.println("name = " + name);
+    }
 }
