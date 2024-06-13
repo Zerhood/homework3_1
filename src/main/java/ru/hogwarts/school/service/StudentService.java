@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class StudentService {
 
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     private StudentRepository repository;
     private AvatarRepository avatarRepository;
 
@@ -34,18 +38,22 @@ public class StudentService {
     }
 
     public Student addStudent(Student student) {
+        logger.info("Was invoked method for create student");
         return repository.save(student);
     }
 
     public Student findStudent(long id) {
+        logger.info("A method was called to output information about the student");
         return repository.getReferenceById(id);
     }
 
     public Student editStudent(Student student) {
+        logger.info("The method of changing the student's data was called");
         return repository.save(student);
     }
 
     public Student deleteStudent(long id) {
+        logger.info("A method was called to delete the student");
         Student result = repository.getReferenceById(id);
         if (result != null) {
             repository.delete(result);
@@ -54,23 +62,28 @@ public class StudentService {
     }
 
     public Collection<Student> findByAge(int age) {
+        logger.info("A method was called that outputs all students of a certain age");
         return repository.findStudentsByAge(age);
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
+        logger.info("A method was called that outputs all students of a certain age range");
         return repository.findByAgeBetween(min, max);
     }
 
     public Faculty findByFaculty(String student) {
+        logger.info("A method was called showing the student's faculty");
         Student student1 = repository.findStudentByNameIgnoreCase(student);
         return student1.getFaculty();
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("A method was called showing the student's avatar");
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
 
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.info("The method that loads the avatar was called");
         Student student = findStudent(studentId);
 
         Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
@@ -95,18 +108,22 @@ public class StudentService {
     }
 
     public int getCountAllByStudents() {
+        logger.info("A method was called showing the number of students");
         return repository.getCountAllByStudents();
     }
 
     public double getAvgAgeByAllStudents() {
+        logger.info("A method was called showing the average age of students");
         return repository.getAvgAgeByAllStudents();
     }
 
     public List<Student> get5StudentsAscId() {
+        logger.info("A method was called showing the last 5 enrolled students");
         return repository.get5StudentsAscId();
     }
 
     public List<Avatar> getAllAvatar(Integer pageNumber, Integer pageSize) {
+        logger.info("A method was called showing all avatars page by page");
         PageRequest request = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(request).getContent();
     }
