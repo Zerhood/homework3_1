@@ -16,7 +16,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -24,6 +26,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class StudentService {
 
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private final StudentRepository studentRepository;
 
     private StudentRepository repository;
     private AvatarRepository avatarRepository;
@@ -32,9 +35,10 @@ public class StudentService {
     private String avatarsDir;
 
     public StudentService(StudentRepository repository,
-                          AvatarRepository avatarRepository) {
+                          AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.repository = repository;
         this.avatarRepository = avatarRepository;
+        this.studentRepository = studentRepository;
     }
 
     public Student addStudent(Student student) {
@@ -126,6 +130,22 @@ public class StudentService {
         logger.info("A method was called showing all avatars page by page");
         PageRequest request = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(request).getContent();
+    }
+
+    public List<String> getAllStudentsByNameFirstA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .filter(s -> String.valueOf(s.charAt(0)).equals("A"))
+                .map(s -> s.toUpperCase(Locale.ROOT))
+                .sorted(Comparator.naturalOrder())
+                .toList();
+    }
+
+    public Double getAvgAgeStudents() {
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .getAsDouble();
     }
 
     private String getExtension(String fileName) {
