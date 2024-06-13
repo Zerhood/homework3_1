@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @RestController
@@ -20,9 +21,7 @@ public class InfoController {
 
     @GetMapping("/calculator")
     public ResponseEntity<Integer> calculator() {
-        int limit = 1_000_000;
-        int sum = Stream.iterate(1, a -> a < limit, a -> a + 1)
-                .reduce(0, Integer::sum);
+        int sum = IntStream.range(1, 1_000_000).sum();
         return ResponseEntity.ok(sum);
     }
 }
