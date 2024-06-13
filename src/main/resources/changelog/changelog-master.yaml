@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: changelog/scripts/lesson-four-three.sql
