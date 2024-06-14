@@ -21,7 +21,7 @@ public class InfoController {
 
     @GetMapping("/calculator")
     public ResponseEntity<Integer> calculator() {
-        int sum = IntStream.range(1, 1_000_000).sum();
+        int sum = IntStream.range(1, 1_000_000).parallel().sum();
         return ResponseEntity.ok(sum);
     }
 }
